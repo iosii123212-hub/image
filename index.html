@@ -4,34 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>תמונות לכאן</title>
-    <!-- פונט Rubik נקי ומודרני מ-Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap" rel="stylesheet">
     
     <style>
-        /* הגדרת משתני צבע למצב יום ולילה */
         :root {
-            --bg-color: #f8f9fa;
-            --text-color: #212529;
+            --bg-color: #f4f6f9;
+            --text-color: #2b2d42;
             --card-bg: #ffffff;
             --header-bg: #ffffff;
-            --border-color: #e9ecef;
-            --shadow: rgba(0, 0, 0, 0.05);
-            --toggle-bg: #e9ecef;
-            --toggle-icon: #f39c12;
-            --transition: all 0.3s ease;
+            --border-color: #e2e8f0;
+            --shadow: rgba(0, 0, 0, 0.06);
+            --toggle-bg: #edf2f7;
+            --toggle-icon: #f3a621;
+            --primary-color: #3182ce;
+            --primary-hover: #2b6cb0;
+            --input-bg: #edf2f7;
+            --transition: all 0.2s ease-in-out;
         }
 
         [data-theme="dark"] {
-            --bg-color: #121212;
-            --text-color: #f8f9fa;
-            --card-bg: #1e1e1e;
-            --header-bg: #1e1e1e;
-            --border-color: #2d2d2d;
-            --shadow: rgba(0, 0, 0, 0.3);
-            --toggle-bg: #2d2d2d;
-            --toggle-icon: #f1c40f;
+            --bg-color: #0f172a;
+            --text-color: #f1f5f9;
+            --card-bg: #1e293b;
+            --header-bg: #1e293b;
+            --border-color: #334155;
+            --shadow: rgba(0, 0, 0, 0.25);
+            --toggle-bg: #334155;
+            --toggle-icon: #ffd700;
+            --primary-color: #3b82f6;
+            --primary-hover: #2563eb;
+            --input-bg: #334155;
         }
 
         * {
@@ -45,10 +49,9 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
-            padding-bottom: 50px;
+            padding-bottom: 60px;
         }
 
-        /* סרגל עליון */
         header {
             background-color: var(--header-bg);
             border-bottom: 1px solid var(--border-color);
@@ -56,121 +59,244 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 10px var(--shadow);
+            box-shadow: 0 4px 6px -1px var(--shadow);
         }
 
         .header-container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
+            gap: 15px;
         }
 
         h1 {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 700;
-            letter-spacing: -0.5px;
         }
 
-        /* כפתור מצב יום/לילה */
+        /* אזור חיפוש ופקדים */
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-grow: 1;
+            justify-content: flex-end;
+            max-width: 600px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: var(--input-bg);
+            color: var(--text-color);
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.2);
+        }
+
         .theme-toggle {
             background: var(--toggle-bg);
             border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            border-radius: 8px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.2rem;
             color: var(--toggle-icon);
+            flex-shrink: 0;
         }
 
-        /* מיכל הגלריה */
         .container {
-            max-width: 1250px;
-            margin: 40px auto;
+            max-width: 1400px;
+            margin: 30px auto;
             padding: 0 20px;
         }
 
-        /* גריד התמונות - 4 עמודות במסכים גדולים */
+        /* גריד של 4 עמודות במסכים רחבים */
         .gallery {
             display: grid;
             grid-template-columns: repeat(1, minmax(0, 1fr));
-            gap: 20px;
+            gap: 25px;
         }
 
-        @media (min-width: 576px) {
-            .gallery {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
+        @media (min-width: 640px) {
+            .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         }
 
-        @media (min-width: 900px) {
-            .gallery {
-                grid-template-columns: repeat(3, minmax(0, 1fr));
-            }
+        @media (min-width: 1024px) {
+            .gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); }
         }
 
-        @media (min-width: 1200px) {
-            .gallery {
-                grid-template-columns: repeat(4, minmax(0, 1fr));
-            }
+        @media (min-width: 1280px) {
+            .gallery { grid-template-columns: repeat(4, minmax(0, 1fr)); }
         }
 
-        /* עיצוב כרטיס תמונה */
+        /* כרטיס תמונה מודרני */
         .image-card {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 4px 6px var(--shadow);
-            cursor: pointer;
-            aspect-ratio: 1 / 1;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
+            flex-direction: column;
         }
 
         .image-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 15px var(--shadow);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px var(--shadow);
         }
 
-        .image-card img {
+        .image-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            overflow: hidden;
+            background-color: rgba(0,0,0,0.02);
+            cursor: pointer;
+        }
+
+        .image-container img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        /* הודעות שגיאה וטעינה */
+        /* פרטי התמונה וכפתורים */
+        .card-details {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex-grow: 1;
+        }
+
+        .file-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* תיבת שיתוף קישור */
+        .url-box {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background-color: var(--input-bg);
+            border-radius: 6px;
+            padding: 4px 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .url-text {
+            font-size: 0.75rem;
+            font-family: monospace;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex-grow: 1;
+            direction: ltr;
+            text-align: left;
+            opacity: 0.8;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px 8px;
+            font-size: 0.8rem;
+            color: var(--primary-color);
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .action-btn:hover {
+            background-color: rgba(49, 130, 206, 0.1);
+        }
+
+        /* כפתורי הורדה */
+        .download-btn {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            padding: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .download-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* לחצן טעינת תמונות נוספות */
+        .load-more-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .load-more-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            box-shadow: 0 4px 6px var(--shadow);
+        }
+
+        .load-more-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* סטטוס ושגיאות */
         .status-message {
             text-align: center;
             font-size: 1.1rem;
             margin-top: 50px;
             grid-column: 1 / -1;
-            color: var(--text-color);
             opacity: 0.8;
         }
 
-        /* חלונית צפייה מוגדלת (Lightbox) */
+        /* חלונית צפייה מוגדלת */
         .lightbox {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
+            background-color: rgba(15, 23, 42, 0.95);
             display: flex;
             align-items: center;
             justify-content: center;
             opacity: 0;
             pointer-events: none;
             z-index: 1000;
-            transition: opacity 0.3s ease;
         }
 
         .lightbox.active {
@@ -182,7 +308,6 @@
             max-width: 90%;
             max-height: 85%;
             border-radius: 8px;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.5);
             object-fit: contain;
         }
 
@@ -195,7 +320,6 @@
             cursor: pointer;
             background: none;
             border: none;
-            padding: 5px 10px;
         }
     </style>
 </head>
@@ -204,24 +328,30 @@
     <header>
         <div class="header-container">
             <h1>תמונות לכאן</h1>
-            <button class="theme-toggle" id="themeToggle" aria-label="שינוי מצב תצוגה">🌙</button>
+            <div class="controls">
+                <input type="text" id="searchInput" class="search-input" placeholder="חיפוש קבצים לפי שם...">
+                <button class="theme-toggle" id="themeToggle" aria-label="שינוי מצב תצוגה">🌙</button>
+            </div>
         </div>
     </header>
 
     <div class="container">
         <div class="gallery" id="galleryContainer">
-            <p class="status-message" id="statusMessage">טוען תמונות...</p>
+            <p class="status-message" id="statusMessage">טוען תמונות משרתי GitHub...</p>
+        </div>
+        
+        <div class="load-more-container" id="loadMoreContainer" style="display: none;">
+            <button class="load-more-btn" id="loadMoreBtn">טען תמונות נוספות</button>
         </div>
     </div>
 
-    <!-- לייטבוקס לתצוגה מוגדלת -->
     <div class="lightbox" id="lightbox" onclick="closeLightbox()">
         <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
         <img class="lightbox-content" id="lightboxImg" src="" alt="תצוגה מוגדלת">
     </div>
 
     <script>
-        // --- ניהול מצב יום/לילה ---
+        // ניהול מצבי תצוגה
         const themeToggle = document.getElementById('themeToggle');
         const currentTheme = localStorage.getItem('theme') || 'light';
 
@@ -243,88 +373,208 @@
             }
         });
 
-        // --- זיהוי אוטומטי של מאגר ה-GitHub וטעינת התמונות ---
+        // רשימת פורמטי תמונה נתמכים
+        const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'bmp', 'tiff', 'ico', 'heic', 'heif', 'avif'];
+
+        // משתני ניהול מידע ופגינציה
+        let allImages = [];       // רשימת כל התמונות שהתקבלו מ-GitHub
+        let filteredImages = [];  // רשימה מסוננת לפי חיפוש
+        let currentIndex = 0;     // אינדקס המעקב הנוכחי
+        const itemsPerPage = 100; // טעינת 100 תמונות בכל פעם
+
         const galleryContainer = document.getElementById('galleryContainer');
         const statusMessage = document.getElementById('statusMessage');
+        const searchInput = document.getElementById('searchInput');
+        const loadMoreContainer = document.getElementById('loadMoreContainer');
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
 
-        // פונקציה לזיהוי המשתמש והמאגר מתוך ה-URL של GitHub Pages
+        // זיהוי המאגר מתוך הכתובת
         function getRepoDetails() {
             const hostname = window.location.hostname;
             const pathname = window.location.pathname;
 
-            // בדיקה אם האתר רץ ב-GitHub Pages (למשל username.github.io/reponame/)
             if (hostname.includes('github.io')) {
                 const owner = hostname.split('.')[0];
                 const repo = pathname.split('/').filter(Boolean)[0] || '';
                 return { owner, repo };
             }
-            
-            // ערכי ברירת מחדל לבדיקה מקומית (יש לשנות לפרטים שלך אם אתה מריץ מקומית)
             return {
                 owner: 'YOUR_GITHUB_USERNAME',
                 repo: 'YOUR_REPO_NAME'
             };
         }
 
-        // סיומות קבצים שיוגדרו כתמונות
-        const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'bmp'];
-
+        // שליפת הנתונים מהמאגר
         async function fetchImages() {
             const { owner, repo } = getRepoDetails();
 
             if (owner === 'YOUR_GITHUB_USERNAME') {
-                statusMessage.innerHTML = 'כדי להציג את התמונות, יש להעלות את הקובץ ל-GitHub Pages או לערוך את פרטי ה-Repository בקוד ה-JavaScript.';
+                statusMessage.innerHTML = 'נא להעלות את הקובץ ל-GitHub Pages או להגדיר את פרטי המאגר ב-JavaScript.';
                 return;
             }
 
-            // פנייה ל-API של GitHub לקבלת תכולת התיקייה הראשית במאגר
             const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/`;
 
             try {
                 const response = await fetch(apiUrl);
-                if (!response.ok) {
-                    throw new Error('שגיאה בגישה לשרתי GitHub');
-                }
+                if (!response.ok) throw new Error('שגיאה בגישה למאגר');
+                
                 const files = await response.json();
 
-                // סינון הקבצים שאינם תמונות
-                const images = files.filter(file => {
+                // סינון קבצים לפי פורמטי תמונה
+                allImages = files.filter(file => {
                     if (file.type !== 'file') return false;
                     const ext = file.name.split('.').pop().toLowerCase();
                     return imageExtensions.includes(ext);
                 });
 
-                if (images.length === 0) {
-                    statusMessage.textContent = 'לא נמצאו תמונות בתיקייה זו.';
+                filteredImages = [...allImages];
+                
+                if (filteredImages.length === 0) {
+                    statusMessage.textContent = 'לא נמצאו תמונות נתמכות במאגר זה.';
                     return;
                 }
 
-                // הסרת הודעת הטעינה
                 statusMessage.remove();
-
-                // רינדור התמונות לגלריה
-                images.forEach(imgData => {
-                    const card = document.createElement('div');
-                    card.className = 'image-card';
-                    card.onclick = () => openLightbox(imgData.download_url);
-
-                    const img = document.createElement('img');
-                    // שימוש בכתובת ה-raw של התמונה
-                    img.src = imgData.download_url;
-                    img.alt = imgData.name;
-                    img.loading = 'lazy'; // טעינה עצלה לביצועים משופרים
-
-                    card.appendChild(img);
-                    galleryContainer.appendChild(card);
-                });
+                renderNextChunk(true);
 
             } catch (error) {
                 console.error(error);
-                statusMessage.textContent = 'לא ניתן לטעון את התמונות. ודא שהמאגר ציבורי ושקיימות בו תמונות.';
+                statusMessage.textContent = 'אירעה שגיאה בטעינת הקבצים. ודא שהמאגר ציבורי.';
             }
         }
 
-        // --- ניהול הלייטבוקס ---
+        // פונקציית רינדור הדרגתית של תמונות
+        function renderNextChunk(isReset = false) {
+            if (isReset) {
+                galleryContainer.innerHTML = '';
+                currentIndex = 0;
+            }
+
+            const nextIndex = currentIndex + itemsPerPage;
+            const chunk = filteredImages.slice(currentIndex, nextIndex);
+
+            chunk.forEach(imgData => {
+                const card = createCard(imgData);
+                galleryContainer.appendChild(card);
+            });
+
+            currentIndex = nextIndex;
+
+            // הצגת או הסתרת כפתור "טען תמונות נוספות"
+            if (currentIndex < filteredImages.length) {
+                loadMoreContainer.style.display = 'flex';
+            } else {
+                loadMoreContainer.style.display = 'none';
+            }
+        }
+
+        // יצירת אלמנט כרטיס תמונה
+        function createCard(imgData) {
+            const card = document.createElement('div');
+            card.className = 'image-card';
+
+            // מיכל התמונה
+            const imgContainer = document.createElement('div');
+            imgContainer.className = 'image-container';
+            imgContainer.onclick = () => openLightbox(imgData.download_url);
+
+            const img = document.createElement('img');
+            img.src = imgData.download_url;
+            img.alt = imgData.name;
+            img.loading = 'lazy';
+            imgContainer.appendChild(img);
+
+            // פרטי הכרטיס
+            const details = document.createElement('div');
+            details.className = 'card-details';
+
+            // שם הקובץ
+            const nameEl = document.createElement('div');
+            nameEl.className = 'file-name';
+            nameEl.textContent = imgData.name;
+            details.appendChild(nameEl);
+
+            // שדה הקישור לשיתוף
+            const urlBox = document.createElement('div');
+            urlBox.className = 'url-box';
+
+            const urlText = document.createElement('span');
+            urlText.className = 'url-text';
+            urlText.textContent = imgData.download_url;
+
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'action-btn';
+            copyBtn.textContent = 'העתק';
+            copyBtn.onclick = (e) => {
+                e.stopPropagation();
+                navigator.clipboard.writeText(imgData.download_url);
+                copyBtn.textContent = 'הועתק!';
+                setTimeout(() => { copyBtn.textContent = 'העתק'; }, 2000);
+            };
+
+            urlBox.appendChild(urlText);
+            urlBox.appendChild(copyBtn);
+            details.appendChild(urlBox);
+
+            // כפתור הורדה ישירה
+            const downloadBtn = document.createElement('button');
+            downloadBtn.className = 'download-btn';
+            downloadBtn.textContent = 'הורדת תמונה ⬇';
+            downloadBtn.onclick = () => downloadFile(imgData.download_url, imgData.name);
+            details.appendChild(downloadBtn);
+
+            card.appendChild(imgContainer);
+            card.appendChild(details);
+
+            return card;
+        }
+
+        // הורדת קובץ ישירה דרך מנגנון Blob למניעת פתיחה בלשונית חדשה
+        async function downloadFile(url, filename) {
+            try {
+                const response = await fetch(url);
+                const blob = await response.blob();
+                const blobUrl = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = blobUrl;
+                link.download = filename;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(blobUrl);
+            } catch (e) {
+                // גיבוי למקרה שיש שגיאת CORS
+                window.open(url, '_blank');
+            }
+        }
+
+        // חיפוש חכם ודינמי
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            
+            if (query === '') {
+                filteredImages = [...allImages];
+            } else {
+                // סינון תמונות המכילות את מחרוזת החיפוש בשם הקובץ
+                filteredImages = allImages.filter(img => 
+                    img.name.toLowerCase().includes(query)
+                );
+            }
+
+            renderNextChunk(true);
+
+            // אם אין תוצאות
+            if (filteredImages.length === 0) {
+                galleryContainer.innerHTML = '<p class="status-message">לא נמצאו תוצאות התואמות לחיפוש שלך.</p>';
+                loadMoreContainer.style.display = 'none';
+            }
+        });
+
+        // כפתור טעינה נוספת
+        loadMoreBtn.addEventListener('click', () => renderNextChunk(false));
+
+        // ניהול לייטבוקס
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightboxImg');
 
@@ -335,11 +585,9 @@
 
         function closeLightbox() {
             lightbox.classList.remove('active');
-            // איפוס המקור כדי למנוע הבהוב של התמונה הקודמת בפתיחה הבאה
-            setTimeout(() => { lightboxImg.src = ''; }, 300);
+            setTimeout(() => { lightboxImg.src = ''; }, 200);
         }
 
-        // הפעלת הפונקציה הראשית לאחר טעינת הדף
         window.addEventListener('DOMContentLoaded', fetchImages);
     </script>
 </body>
