@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="he" dir="rtl">
+<html lang="he" dir="rtl" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>תמונות לכאן</title>
     
-    <!-- הגדרת לוגו האתר כאיקון (Favicon) -->
     <link rel="icon" type="image/png" href="1.png">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,21 +13,6 @@
     
     <style>
         :root {
-            --bg-color: #f8fafc;
-            --text-color: #0f172a;
-            --text-secondary: #64748b;
-            --card-bg: rgba(255, 255, 255, 0.8);
-            --header-bg: rgba(255, 255, 255, 0.85);
-            --border-color: rgba(226, 232, 240, 0.8);
-            --shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.04);
-            --accent-color: #6366f1;
-            --accent-hover: #4f46e5;
-            --toggle-bg: #f1f5f9;
-            --input-bg: #ffffff;
-            --cols: 4;
-        }
-
-        [data-theme="dark"] {
             --bg-color: #0b0f19;
             --text-color: #f8fafc;
             --text-secondary: #94a3b8;
@@ -40,6 +24,21 @@
             --accent-hover: #6366f1;
             --toggle-bg: #1e293b;
             --input-bg: #1e293b;
+            --cols: 5;
+        }
+
+        [data-theme="light"] {
+            --bg-color: #f8fafc;
+            --text-color: #0f172a;
+            --text-secondary: #64748b;
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --header-bg: rgba(255, 255, 255, 0.85);
+            --border-color: rgba(226, 232, 240, 0.8);
+            --shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.04);
+            --accent-color: #6366f1;
+            --accent-hover: #4f46e5;
+            --toggle-bg: #f1f5f9;
+            --input-bg: #ffffff;
         }
 
         * {
@@ -56,7 +55,6 @@
             transition: background-color 0.4s ease, color 0.4s ease;
         }
 
-        /* סרגל עליון עם אפקט זכוכית */
         header {
             background-color: var(--header-bg);
             backdrop-filter: blur(12px);
@@ -70,7 +68,7 @@
         }
 
         .header-container {
-            max-width: 1600px;
+            max-width: 1800px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
@@ -85,7 +83,6 @@
             gap: 12px;
         }
 
-        /* שימוש בקובץ 1.png כלוגו */
         .logo-img {
             width: 40px;
             height: 40px;
@@ -107,7 +104,6 @@
             gap: 15px;
         }
 
-        /* כפתור מצב לילה מעוצב */
         .theme-toggle {
             background: var(--toggle-bg);
             border: 1px solid var(--border-color);
@@ -122,9 +118,8 @@
             box-shadow: var(--shadow);
         }
 
-        /* לוח בקרה ואפשרויות */
         .controls-panel {
-            max-width: 1600px;
+            max-width: 1800px;
             margin: 30px auto 0;
             padding: 0 25px;
             display: flex;
@@ -156,10 +151,6 @@
             outline: none;
         }
 
-        .search-input:focus {
-            border-color: var(--accent-color);
-        }
-
         .select-custom {
             padding: 14px 20px;
             border-radius: 14px;
@@ -172,11 +163,11 @@
             box-shadow: var(--shadow);
         }
 
-        /* פילטרים מהירים (Chips) */
         .filter-chips {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
+            align-items: center;
         }
 
         .chip {
@@ -196,11 +187,21 @@
             border-color: var(--accent-color);
         }
 
-        /* פקדי פריסת טורים (Columns Selector) */
+        .chip-favorites {
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+
+        .chip-favorites.active, .chip-favorites:hover {
+            background-color: #ef4444;
+            color: white;
+            border-color: #ef4444;
+        }
+
         .layout-controls {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 5px;
             background-color: var(--toggle-bg);
             padding: 4px;
             border-radius: 10px;
@@ -210,12 +211,12 @@
         .layout-btn {
             background: none;
             border: none;
-            padding: 6px 12px;
+            padding: 6px 10px;
             border-radius: 8px;
             cursor: pointer;
             color: var(--text-secondary);
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
 
         .layout-btn.active {
@@ -223,18 +224,14 @@
             color: white;
         }
 
-        /* סטטיסטיקה */
         .stats-text {
             font-size: 0.9rem;
             color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: 5px;
         }
 
-        /* הגלריה הראשית */
+        /* גלריה */
         .gallery-container {
-            max-width: 1600px;
+            max-width: 1800px;
             margin: 30px auto;
             padding: 0 25px;
         }
@@ -242,32 +239,24 @@
         .gallery {
             display: grid;
             grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
-            gap: 30px;
-            transition: grid-template-columns 0.3s ease;
+            gap: 20px;
         }
 
-        /* התאמה רספונסיבית לניידים וטאבלטים */
-        @media (max-width: 1200px) { :root { --cols: 3 !important; } .layout-controls { display: none; } }
+        @media (max-width: 1400px) { :root { --cols: 4 !important; } }
+        @media (max-width: 1024px) { :root { --cols: 3 !important; } }
         @media (max-width: 768px) { :root { --cols: 2 !important; } }
         @media (max-width: 480px) { :root { --cols: 1 !important; } }
 
-        /* עיצוב כרטיס תמונה Glassmorphic */
+        /* כרטיס תמונה */
         .image-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 20px;
+            border-radius: 16px;
             overflow: hidden;
             box-shadow: var(--shadow);
             display: flex;
             flex-direction: column;
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
-        }
-
-        .image-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.15);
+            position: relative;
         }
 
         .image-wrapper {
@@ -282,40 +271,71 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.5s ease;
+            transition: transform 0.4s ease;
         }
 
         .image-card:hover .image-wrapper img {
             transform: scale(1.05);
         }
 
+        .fav-btn {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            z-index: 10;
+            backdrop-filter: blur(4px);
+            transition: all 0.2s ease;
+        }
+
+        .fav-btn.active {
+            color: #ef4444;
+            background: rgba(255, 255, 255, 0.9);
+            border-color: white;
+        }
+
         .card-body {
-            padding: 20px;
+            padding: 15px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
 
         .card-title {
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             font-weight: 700;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        /* תיבת שיתוף קישור מעוצבת */
+        .share-row {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
         .share-box {
             display: flex;
             background: var(--toggle-bg);
             border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 6px 10px;
+            border-radius: 8px;
+            padding: 4px 8px;
             align-items: center;
         }
 
         .share-url {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-family: monospace;
             direction: ltr;
             text-align: left;
@@ -330,60 +350,42 @@
             background: none;
             border: none;
             color: var(--accent-color);
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 700;
             cursor: pointer;
-            padding: 2px 6px;
+            padding: 2px 4px;
         }
 
-        .copy-btn:hover {
-            text-decoration: underline;
-        }
-
-        /* כפתור הורדה דקורטיבי */
         .download-action-btn {
             background-color: var(--accent-color);
             color: white;
             border: none;
-            border-radius: 10px;
-            padding: 10px;
-            font-size: 0.85rem;
+            border-radius: 8px;
+            padding: 8px;
+            font-size: 0.8rem;
             font-weight: 700;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            text-align: center;
         }
 
-        .download-action-btn:hover {
-            background-color: var(--accent-hover);
-        }
-
-        /* פאנל טעינה */
         .load-more-section {
             display: flex;
             justify-content: center;
-            margin: 50px 0;
+            margin: 40px 0;
         }
 
         .load-more-btn {
             background-color: var(--accent-color);
             color: white;
             border: none;
-            padding: 14px 40px;
-            border-radius: 14px;
-            font-size: 1rem;
+            padding: 12px 35px;
+            border-radius: 12px;
+            font-size: 0.95rem;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: var(--shadow);
         }
 
-        .load-more-btn:hover {
-            background-color: var(--accent-hover);
-        }
-
-        /* לייטבוקס משופר עם מקשי מעבר */
+        /* לייטבוקס */
         .lightbox {
             position: fixed;
             top: 0;
@@ -407,10 +409,9 @@
 
         .lightbox-content {
             max-width: 85%;
-            max-height: 85%;
+            max-height: 80%;
             object-fit: contain;
             border-radius: 12px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
         .lightbox-btn {
@@ -418,10 +419,10 @@
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: white;
-            width: 50px;
-            height: 50px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -429,15 +430,93 @@
             backdrop-filter: blur(5px);
         }
 
-        .lightbox-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
         .lightbox-prev { left: 30px; }
         .lightbox-next { right: 30px; }
-        .lightbox-close { top: 30px; right: 30px; font-size: 2rem; }
+        .lightbox-close { top: 30px; right: 30px; }
+        
+        .lightbox-play {
+            top: 30px;
+            left: 30px;
+            font-size: 1rem;
+            width: auto;
+            padding: 0 15px;
+            border-radius: 20px;
+        }
 
-        /* התראות קופצות (Toast) */
+        /* מודאל פרסומת קופצת - מותאם פרופורציונלית לממדי התמונה */
+        .ad-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 2000;
+            transition: opacity 0.4s ease;
+        }
+
+        .ad-modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .ad-container {
+            background-color: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 24px;
+            padding: 20px;
+            max-width: 90vw;
+            width: max-content; /* כיווץ התיבה בדיוק לרוחב המקסימלי של התמונה */
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .ad-image {
+            max-width: 100%;
+            max-height: 60vh; /* מניעת חריגה מגובה המסך */
+            object-fit: contain; /* שמירה על יחס הממדים המקורי של התמונה */
+            border-radius: 14px;
+            cursor: pointer;
+            display: block;
+        }
+
+        .ad-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
+        .ad-close-btn {
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            background-color: #ef4444;
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(239, 68, 68, 0.4);
+            z-index: 10;
+        }
+
+        /* התראות */
         .toast {
             position: fixed;
             bottom: 30px;
@@ -447,11 +526,10 @@
             padding: 12px 24px;
             border-radius: 10px;
             font-weight: 600;
-            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
             transform: translateY(100px);
             opacity: 0;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            z-index: 1100;
+            transition: all 0.3s ease;
+            z-index: 2500;
         }
 
         .toast.show {
@@ -465,18 +543,19 @@
     <header>
         <div class="header-container">
             <div class="logo-section">
-                <!-- שימוש בלוגו 1.png עם חלופה בטקסט אם אינו קיים -->
                 <img src="1.png" alt="לוגו" class="logo-img" onerror="this.style.display='none'">
                 <h1>תמונות לכאן</h1>
             </div>
             <div class="header-actions">
                 <div class="layout-controls">
-                    <button class="layout-btn" onclick="setLayout(2)">2 טורים</button>
-                    <button class="layout-btn" onclick="setLayout(3)">3 טורים</button>
-                    <button class="layout-btn active" id="btn-layout-4" onclick="setLayout(4)">4 טורים</button>
-                    <button class="layout-btn" onclick="setLayout(5)">5 טורים</button>
+                    <button class="layout-btn" onclick="setLayout(2)">2</button>
+                    <button class="layout-btn" onclick="setLayout(3)">3</button>
+                    <button class="layout-btn" onclick="setLayout(4)">4</button>
+                    <button class="layout-btn active" id="btn-layout-5" onclick="setLayout(5)">5</button>
+                    <button class="layout-btn" onclick="setLayout(6)">6</button>
+                    <button class="layout-btn" onclick="setLayout(7)">7</button>
                 </div>
-                <button class="theme-toggle" id="themeToggle" aria-label="שינוי מצב תצוגה">🌙</button>
+                <button class="theme-toggle" id="themeToggle" aria-label="שינוי מצב תצוגה">☀️</button>
             </div>
         </div>
     </header>
@@ -487,20 +566,18 @@
                 <input type="text" id="searchInput" class="search-input" placeholder="חיפוש קבצים חכם...">
             </div>
             <select id="sortSelect" class="select-custom">
-                <option value="name-asc">שם קובץ (א' עד ת')</option>
-                <option value="name-desc">שם קובץ (ת' עד א')</option>
-                <option value="random">סדר אקראי</option>
+                <option value="name-asc">שם (א' - ת')</option>
+                <option value="name-desc">שם (ת' - א')</option>
+                <option value="random">אקראי 🎲</option>
             </select>
         </div>
 
         <div class="filter-chips" id="filterChips">
             <button class="chip active" onclick="setFilter('all')">הכל</button>
-            <!-- סוגי קבצים יתווספו דינמית כאן -->
+            <button class="chip chip-favorites" onclick="setFilter('favorites')">❤️ מועדפים</button>
         </div>
 
-        <div class="stats-text" id="statsText">
-            טוען נתוני תמונות...
-        </div>
+        <div class="stats-text" id="statsText">טוען קבצים...</div>
     </div>
 
     <div class="gallery-container">
@@ -510,26 +587,36 @@
         </div>
     </div>
 
-    <!-- לייטבוקס ניווט -->
     <div class="lightbox" id="lightbox">
         <button class="lightbox-close lightbox-btn" onclick="closeLightbox()">&times;</button>
+        <button class="lightbox-play lightbox-btn" id="slideshowBtn" onclick="toggleSlideshow(); event.stopPropagation();">▶ מצגת</button>
         <button class="lightbox-btn lightbox-prev" onclick="navigateLightbox(-1); event.stopPropagation();">&#10094;</button>
         <img class="lightbox-content" id="lightboxImg" src="" alt="תצוגה מוגדלת" onclick="event.stopPropagation();">
         <button class="lightbox-btn lightbox-next" onclick="navigateLightbox(1); event.stopPropagation();">&#10095;</button>
     </div>
 
-    <!-- התראות -->
+    <!-- מודאל פרסומת קופצת מקושרת -->
+    <div class="ad-modal" id="adModal" onclick="closeAd(event)">
+        <div class="ad-container" onclick="event.stopPropagation();">
+            <button class="ad-close-btn" onclick="closeAd(event)">&times;</button>
+            <div class="ad-title">מבצע חם באתר! 📢</div>
+            
+            <a href="#" id="adLink" target="_blank" rel="noopener noreferrer">
+                <img src="" alt="פרסומת" class="ad-image" id="adImage">
+            </a>
+            
+            <p style="font-size: 0.85rem; opacity: 0.8; margin-top: 15px;">לחץ על התמונה למעבר לאתר המפרסם או על ה-X לסגירה</p>
+        </div>
+    </div>
+
     <div class="toast" id="toast">הקישור הועתק בהצלחה!</div>
 
     <script>
-        // שינוי עיצוב ומצב לילה
         const themeToggle = document.getElementById('themeToggle');
-        const currentTheme = localStorage.getItem('theme') || 'light';
+        const currentTheme = localStorage.getItem('theme') || 'dark';
 
-        if (currentTheme === 'dark') {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            themeToggle.textContent = '☀️';
-        }
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        themeToggle.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
 
         themeToggle.addEventListener('click', () => {
             let theme = document.documentElement.getAttribute('data-theme');
@@ -544,22 +631,24 @@
             }
         });
 
-        // שינוי כמות הטורים בגריד
         function setLayout(cols) {
             document.documentElement.style.setProperty('--cols', cols);
             document.querySelectorAll('.layout-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
         }
 
-        // נתוני תמונות
         const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'bmp', 'tiff', 'ico', 'heic', 'heif', 'avif'];
         let rawFiles = [];
         let filteredFiles = [];
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
         let currentLoadedIndex = 0;
         const limitPerPage = 100;
         let activeFilter = 'all';
         let activeSort = 'name-asc';
+        
         let lightboxIndex = 0;
+        let slideshowInterval = null;
+        let isPlaying = false;
 
         const galleryContainer = document.getElementById('galleryContainer');
         const statsText = document.getElementById('statsText');
@@ -569,7 +658,6 @@
         const loadMoreSection = document.getElementById('loadMoreSection');
         const loadMoreBtn = document.getElementById('loadMoreBtn');
 
-        // זיהוי המאגר הנוכחי ב-GitHub
         function getRepoDetails() {
             const hostname = window.location.hostname;
             const pathname = window.location.pathname;
@@ -585,7 +673,7 @@
         async function initGallery() {
             const { owner, repo } = getRepoDetails();
             if (owner === 'YOUR_GITHUB_USERNAME') {
-                statsText.textContent = 'נא להעלות את הפרויקט ל-GitHub Pages להצגת תמונות דינמית.';
+                statsText.textContent = 'נא להעלות את הפרויקט ל-GitHub Pages להצגת תמונות.';
                 return;
             }
 
@@ -602,13 +690,56 @@
 
                 buildFilters();
                 applyFilterAndSort();
+                loadAdvertisements();
 
             } catch (e) {
-                statsText.textContent = 'אירעה שגיאה בטעינת קבצים משרתי GitHub. ודא שהמאגר ציבורי.';
+                statsText.textContent = 'שגיאה בטעינת קבצים. ודא שהמאגר ציבורי.';
             }
         }
 
-        // בניית כפתורי סינון מהירים לפי סוגי קבצים קיימים במאגר
+        async function loadAdvertisements() {
+            try {
+                const res = await fetch('1.json');
+                if (!res.ok) return;
+                const adList = await res.json();
+
+                if (Array.isArray(adList) && adList.length > 0) {
+                    const now = Date.now();
+                    const lastAdShown = localStorage.getItem('lastAdShownTime');
+                    const adCooldown = 5 * 60 * 1000; // הגבלת הופעה לפעם ב-5 דקות (במילישניות)
+
+                    if (!lastAdShown || (now - lastAdShown > adCooldown)) {
+                        const selectedAd = adList[Math.floor(Math.random() * adList.length)];
+                        const adFileObj = rawFiles.find(f => f.name.toLowerCase() === selectedAd.image.toLowerCase());
+                        
+                        if (adFileObj) {
+                            setTimeout(() => {
+                                showAd(adFileObj.download_url, selectedAd.link);
+                                localStorage.setItem('lastAdShownTime', now);
+                            }, 2500);
+                        }
+                    }
+                }
+            } catch (e) {
+                console.log('פרסומת לא הופעלה (תקופת המתנה פעילה או שגיאת קריאת קובץ הגדרות).');
+            }
+        }
+
+        function showAd(imageUrl, targetLink) {
+            const adModal = document.getElementById('adModal');
+            const adImage = document.getElementById('adImage');
+            const adLink = document.getElementById('adLink');
+            
+            adImage.src = imageUrl;
+            adLink.href = targetLink;
+            adModal.classList.add('active');
+        }
+
+        function closeAd(event) {
+            if (event) event.stopPropagation();
+            document.getElementById('adModal').classList.remove('active');
+        }
+
         function buildFilters() {
             const formats = new Set();
             rawFiles.forEach(f => formats.add(f.name.split('.').pop().toLowerCase()));
@@ -633,22 +764,30 @@
             applyFilterAndSort();
         }
 
-        // מיון וסינון נתונים
+        function toggleFavorite(url) {
+            if (favorites.includes(url)) {
+                favorites = favorites.filter(fav => fav !== url);
+            } else {
+                favorites.push(url);
+            }
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            applyFilterAndSort();
+        }
+
         function applyFilterAndSort() {
             let result = [...rawFiles];
 
-            // סינון לפי סוג
-            if (activeFilter !== 'all') {
+            if (activeFilter === 'favorites') {
+                result = result.filter(f => favorites.includes(f.download_url));
+            } else if (activeFilter !== 'all') {
                 result = result.filter(f => f.name.split('.').pop().toLowerCase() === activeFilter);
             }
 
-            // חיפוש חופשי
             const searchVal = searchInput.value.toLowerCase().trim();
             if (searchVal !== '') {
                 result = result.filter(f => f.name.toLowerCase().includes(searchVal));
             }
 
-            // מיון
             if (activeSort === 'name-asc') {
                 result.sort((a, b) => a.name.localeCompare(b.name));
             } else if (activeSort === 'name-desc') {
@@ -661,7 +800,6 @@
             renderImages(true);
         }
 
-        // הצגת תמונות בגריד
         function renderImages(reset = false) {
             if (reset) {
                 galleryContainer.innerHTML = '';
@@ -679,8 +817,7 @@
 
             currentLoadedIndex = limit;
 
-            // עדכון כמות וסטטיסטיקה
-            statsText.textContent = `מציג ${Math.min(currentLoadedIndex, filteredFiles.length)} מתוך ${filteredFiles.length} תמונות שנמצאו (סה"כ במאגר: ${rawFiles.length})`;
+            statsText.textContent = `מציג ${Math.min(currentLoadedIndex, filteredFiles.length)} מתוך ${filteredFiles.length} קבצים שנמצאו (סה"כ במאגר: ${rawFiles.length})`;
 
             if (currentLoadedIndex < filteredFiles.length) {
                 loadMoreSection.style.display = 'flex';
@@ -689,10 +826,19 @@
             }
         }
 
-        // כרטיס תמונה
         function createCard(file, index) {
             const card = document.createElement('div');
             card.className = 'image-card';
+
+            const isFav = favorites.includes(file.download_url);
+            const favBtn = document.createElement('button');
+            favBtn.className = `fav-btn ${isFav ? 'active' : ''}`;
+            favBtn.innerHTML = '♥';
+            favBtn.onclick = (e) => {
+                e.stopPropagation();
+                toggleFavorite(file.download_url);
+            };
+            card.appendChild(favBtn);
 
             const wrapper = document.createElement('div');
             wrapper.className = 'image-wrapper';
@@ -712,31 +858,21 @@
             title.textContent = file.name;
             body.appendChild(title);
 
-            // תיבת שיתוף כתובת ה-URL
-            const shareBox = document.createElement('div');
-            shareBox.className = 'share-box';
+            const shareRow = document.createElement('div');
+            shareRow.className = 'share-row';
 
-            const urlSpan = document.createElement('span');
-            urlSpan.className = 'share-url';
-            urlSpan.textContent = file.download_url;
+            const shareBox = createShareBox(file.download_url, 'קישור');
+            shareRow.appendChild(shareBox);
 
-            const copyBtn = document.createElement('button');
-            copyBtn.className = 'copy-btn';
-            copyBtn.textContent = 'העתק';
-            copyBtn.onclick = (e) => {
-                e.stopPropagation();
-                navigator.clipboard.writeText(file.download_url);
-                showToast();
-            };
+            const markdownUrl = `![${file.name}](${file.download_url})`;
+            const markdownBox = createShareBox(markdownUrl, 'MD');
+            shareRow.appendChild(markdownBox);
 
-            shareBox.appendChild(urlSpan);
-            shareBox.appendChild(copyBtn);
-            body.appendChild(shareBox);
+            body.appendChild(shareRow);
 
-            // כפתור הורדה
             const downloadBtn = document.createElement('button');
             downloadBtn.className = 'download-action-btn';
-            downloadBtn.innerHTML = 'הורדה ⬇';
+            downloadBtn.innerHTML = 'הורדה ישירה ⬇';
             downloadBtn.onclick = () => triggerDownload(file.download_url, file.name);
             body.appendChild(downloadBtn);
 
@@ -746,7 +882,28 @@
             return card;
         }
 
-        // פונקציית הורדת קובץ ישירה
+        function createShareBox(text, label) {
+            const shareBox = document.createElement('div');
+            shareBox.className = 'share-box';
+
+            const urlSpan = document.createElement('span');
+            urlSpan.className = 'share-url';
+            urlSpan.textContent = text;
+
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'copy-btn';
+            copyBtn.textContent = label;
+            copyBtn.onclick = (e) => {
+                e.stopPropagation();
+                navigator.clipboard.writeText(text);
+                showToast();
+            };
+
+            shareBox.appendChild(urlSpan);
+            shareBox.appendChild(copyBtn);
+            return shareBox;
+        }
+
         async function triggerDownload(url, filename) {
             try {
                 const response = await fetch(url);
@@ -764,14 +921,12 @@
             }
         }
 
-        // הצגת הודעת העתקה
         function showToast() {
             const toast = document.getElementById('toast');
             toast.classList.add('show');
             setTimeout(() => { toast.classList.remove('show'); }, 2500);
         }
 
-        // אירועי חיפוש ומיון
         searchInput.addEventListener('input', applyFilterAndSort);
         sortSelect.addEventListener('change', (e) => {
             activeSort = e.target.value;
@@ -780,9 +935,9 @@
 
         loadMoreBtn.addEventListener('click', () => renderImages(false));
 
-        // ניהול לייטבוקס וניווט תמונות
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightboxImg');
+        const slideshowBtn = document.getElementById('slideshowBtn');
 
         function openLightbox(index) {
             lightboxIndex = index;
@@ -794,6 +949,7 @@
         function closeLightbox() {
             lightbox.classList.remove('active');
             document.body.style.overflow = '';
+            stopSlideshow();
             setTimeout(() => { lightboxImg.src = ''; }, 200);
         }
 
@@ -810,7 +966,28 @@
             }
         }
 
-        // תמיכה במקשי המקלדת לניווט
+        function toggleSlideshow() {
+            if (isPlaying) {
+                stopSlideshow();
+            } else {
+                startSlideshow();
+            }
+        }
+
+        function startSlideshow() {
+            isPlaying = true;
+            slideshowBtn.textContent = '⏸ עצור';
+            slideshowInterval = setInterval(() => {
+                navigateLightbox(1);
+            }, 3000);
+        }
+
+        function stopSlideshow() {
+            isPlaying = false;
+            slideshowBtn.textContent = '▶ מצגת';
+            clearInterval(slideshowInterval);
+        }
+
         document.addEventListener('keydown', (e) => {
             if (!lightbox.classList.contains('active')) return;
             if (e.key === 'ArrowLeft') navigateLightbox(-1);
@@ -818,7 +995,6 @@
             if (e.key === 'Escape') closeLightbox();
         });
 
-        // סגירת הלייטבוקס בלחיצה על הרקע הכהה
         lightbox.addEventListener('click', closeLightbox);
 
         window.addEventListener('DOMContentLoaded', initGallery);
