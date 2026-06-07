@@ -24,7 +24,6 @@
             --accent-hover: #6366f1;
             --toggle-bg: #1e293b;
             --input-bg: #1e293b;
-            --cols: 5;
         }
 
         [data-theme="light"] {
@@ -229,7 +228,7 @@
             color: var(--text-secondary);
         }
 
-        /* גלריה */
+        /* גלריה והגדרת טורים דינמיים */
         .gallery-container {
             max-width: 1800px;
             margin: 30px auto;
@@ -238,14 +237,34 @@
 
         .gallery {
             display: grid;
-            grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
             gap: 20px;
+            /* ברירת מחדל למובייל */
+            grid-template-columns: repeat(1, minmax(0, 1fr));
         }
 
-        @media (max-width: 1400px) { :root { --cols: 4 !important; } }
-        @media (max-width: 1024px) { :root { --cols: 3 !important; } }
-        @media (max-width: 768px) { :root { --cols: 2 !important; } }
-        @media (max-width: 480px) { :root { --cols: 1 !important; } }
+        /* הגדרות רספונסיביות בסיסיות (כאשר לא נבחר טור ספציפי) */
+        @media (min-width: 480px) {
+            .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media (min-width: 768px) {
+            .gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        }
+        @media (min-width: 1024px) {
+            .gallery { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        }
+        @media (min-width: 1200px) {
+            .gallery { grid-template-columns: repeat(5, minmax(0, 1fr)); } /* ברירת מחדל למסכי מחשב */
+        }
+
+        /* מחלקות CSS לשליטה דינמית של כפתורי הבחירה (במסכים מעל 768px) */
+        @media (min-width: 768px) {
+            .gallery.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+            .gallery.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+            .gallery.cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+            .gallery.cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)) !important; }
+            .gallery.cols-6 { grid-template-columns: repeat(6, minmax(0, 1fr)) !important; }
+            .gallery.cols-7 { grid-template-columns: repeat(7, minmax(0, 1fr)) !important; }
+        }
 
         /* כרטיס תמונה */
         .image-card {
@@ -443,7 +462,7 @@
             border-radius: 20px;
         }
 
-        /* מודאל פרסומת קופצת - מותאם פרופורציונלית לממדי התמונה */
+        /* מודאל פרסומת קופצת */
         .ad-modal {
             position: fixed;
             top: 0;
@@ -472,7 +491,7 @@
             border-radius: 24px;
             padding: 20px;
             max-width: 90vw;
-            width: max-content; /* כיווץ התיבה בדיוק לרוחב המקסימלי של התמונה */
+            width: max-content;
             position: relative;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             text-align: center;
@@ -483,8 +502,8 @@
 
         .ad-image {
             max-width: 100%;
-            max-height: 60vh; /* מניעת חריגה מגובה המסך */
-            object-fit: contain; /* שמירה על יחס הממדים המקורי של התמונה */
+            max-height: 60vh;
+            object-fit: contain;
             border-radius: 14px;
             cursor: pointer;
             display: block;
@@ -548,12 +567,12 @@
             </div>
             <div class="header-actions">
                 <div class="layout-controls">
-                    <button class="layout-btn" onclick="setLayout(2)">2</button>
-                    <button class="layout-btn" onclick="setLayout(3)">3</button>
-                    <button class="layout-btn" onclick="setLayout(4)">4</button>
-                    <button class="layout-btn active" id="btn-layout-5" onclick="setLayout(5)">5</button>
-                    <button class="layout-btn" onclick="setLayout(6)">6</button>
-                    <button class="layout-btn" onclick="setLayout(7)">7</button>
+                    <button class="layout-btn" onclick="setLayout(2, this)">2</button>
+                    <button class="layout-btn" onclick="setLayout(3, this)">3</button>
+                    <button class="layout-btn" onclick="setLayout(4, this)">4</button>
+                    <button class="layout-btn active" id="btn-layout-5" onclick="setLayout(5, this)">5</button>
+                    <button class="layout-btn" onclick="setLayout(6, this)">6</button>
+                    <button class="layout-btn" onclick="setLayout(7, this)">7</button>
                 </div>
                 <button class="theme-toggle" id="themeToggle" aria-label="שינוי מצב תצוגה">☀️</button>
             </div>
@@ -581,7 +600,8 @@
     </div>
 
     <div class="gallery-container">
-        <div class="gallery" id="galleryContainer"></div>
+        <!-- הגדרת מחלקת ברירת המחדל cols-5 -->
+        <div class="gallery cols-5" id="galleryContainer"></div>
         <div class="load-more-section" id="loadMoreSection" style="display: none;">
             <button class="load-more-btn" id="loadMoreBtn">טען תמונות נוספות</button>
         </div>
@@ -631,10 +651,15 @@
             }
         });
 
-        function setLayout(cols) {
-            document.documentElement.style.setProperty('--cols', cols);
+        // פונקציית שינוי טורים דינמית מבוססת קלאסים
+        function setLayout(cols, btnElement) {
+            const gallery = document.getElementById('galleryContainer');
+            // איפוס מחלקות קיימות והחלת המחלקה החדשה
+            gallery.className = 'gallery cols-' + cols;
+            
+            // עדכון כפתור פעיל
             document.querySelectorAll('.layout-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            btnElement.classList.add('active');
         }
 
         const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'bmp', 'tiff', 'ico', 'heic', 'heif', 'avif'];
@@ -706,7 +731,7 @@
                 if (Array.isArray(adList) && adList.length > 0) {
                     const now = Date.now();
                     const lastAdShown = localStorage.getItem('lastAdShownTime');
-                    const adCooldown = 5 * 60 * 1000; // הגבלת הופעה לפעם ב-5 דקות (במילישניות)
+                    const adCooldown = 5 * 60 * 1000; 
 
                     if (!lastAdShown || (now - lastAdShown > adCooldown)) {
                         const selectedAd = adList[Math.floor(Math.random() * adList.length)];
@@ -861,12 +886,9 @@
             const shareRow = document.createElement('div');
             shareRow.className = 'share-row';
 
+            // קובץ קישור בודד ללא Markdown למניעת כפילות ובלבול
             const shareBox = createShareBox(file.download_url, 'קישור');
             shareRow.appendChild(shareBox);
-
-            const markdownUrl = `![${file.name}](${file.download_url})`;
-            const markdownBox = createShareBox(markdownUrl, 'MD');
-            shareRow.appendChild(markdownBox);
 
             body.appendChild(shareRow);
 
